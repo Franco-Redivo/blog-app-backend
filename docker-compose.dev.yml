@@ -1,0 +1,29 @@
+services:
+  app:
+    image: blog-app-backend
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+    environment:
+      DATABASE_URL: postgres://postgres:mysecretpassword@postgres:5432/postgres
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - postgres
+    container_name: blog-app-backend-dev
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    container_name: blog-app-postgres-dev
+
+volumes:
+  postgres_data: {}
