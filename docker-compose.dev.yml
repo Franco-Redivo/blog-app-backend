@@ -4,6 +4,8 @@ services:
     build:
       context: .
       dockerfile: dev.Dockerfile
+    ports:
+      - "3000:3000"
     environment:
       DATABASE_URL: postgres://postgres:mysecretpassword@postgres:5432/postgres
     volumes:
