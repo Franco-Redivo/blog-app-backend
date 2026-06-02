@@ -78,8 +78,16 @@ router.get('/:id', blogFinder, async (req, res) => {
     res.json(req.blog);
 });
 
-router.delete('/:id', blogFinder, async (req, res, next) => {
+router.delete('/:id', tokenExtractor, blogFinder, async (req, res, next) => {
     try {
+        const user = await User.findByPk(req.decodedToken.id);
+        if (!user) {
+            return res.status(401).json({ error: 'invalid token' });
+        }
+        
+        if (req.blog.userId !== user.id) {
+            return res.status(403).json({ error: 'forbidden' });
+        }
         await req.blog.destroy();
         res.status(204).end();
     } catch (error) {
