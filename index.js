@@ -6,9 +6,14 @@ const { connectToDatabase } = require('./utils/db');
 const errorHandler = require('./middleware/errorHandler');
 
 const blogRouter = require('./controllers/blogs');
+const loginRouter = require('./controllers/login');
+const userRouter = require('./controllers/users');
+
 
 app.use(express.json());
 app.use('/api/blogs', blogRouter);
+app.use('/api/login', loginRouter);
+app.use('/api/users', userRouter);
 app.use(errorHandler);
 
 
