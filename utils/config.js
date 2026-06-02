@@ -3,5 +3,6 @@ require ('dotenv').config();
 module.exports = {
     DATABASE_URL: process.env.DATABASE_URL,
     DB_SSL: process.env.DB_SSL === 'true',
-    PORT: process.env.PORT || 3000
+    PORT: process.env.PORT || 3000,
+    SECRET: process.env.SECRET || 'mysecretkey'
 }
