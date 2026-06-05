@@ -1,21 +1,4 @@
 services:
-  app:
-    image: blog-app-backend
-    build:
-      context: .
-      dockerfile: dev.Dockerfile
-    ports:
-      - "3000:3000"
-    environment:
-      DATABASE_URL: postgres://postgres:mysecretpassword@postgres:5432/postgres
-      SECRET: mysecretkey
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
-    depends_on:
-      - postgres
-    container_name: blog-app-backend-dev
-
   postgres:
     image: postgres:latest
     environment:
@@ -23,10 +6,11 @@ services:
       POSTGRES_PASSWORD: mysecretpassword
       POSTGRES_DB: postgres
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql
+      - postgres_dev_data:/var/lib/postgresql
+      - ./postgres-init:/docker-entrypoint-initdb.d
     container_name: blog-app-postgres-dev
 
 volumes:
-  postgres_data: {}
+  postgres_dev_data: {}

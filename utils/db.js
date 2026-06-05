@@ -1,5 +1,8 @@
 const Sequelize = require('sequelize');
-const { DATABASE_URL, DB_SSL } = require('./config');
+const { DATABASE_URL,TEST_DATABASE_URL, DB_SSL } = require('./config');
+
+const isTesting = process.env.NODE_ENV === 'test' || process.env.TESTING === 'true';
+const url = isTesting ? TEST_DATABASE_URL : DATABASE_URL;
 
 const sequelizeOptions = DB_SSL
     ? {
@@ -12,7 +15,7 @@ const sequelizeOptions = DB_SSL
     }
     : {};
 
-const sequelize = new Sequelize(DATABASE_URL, sequelizeOptions);
+const sequelize = new Sequelize(url, sequelizeOptions);
 
 const connectToDatabase = async () => {
     const maxRetries = 12;

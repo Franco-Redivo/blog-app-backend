@@ -14,7 +14,11 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
     try {
-        const user = await User.create(req.body);
+        const user = await User.create({
+            username: req.body.username,
+            name: req.body.name,
+            passwordHash: req.body.password
+        });
         res.status(201).json(user);
     } catch (error) {
         res.status(400).json({ error: error.message });
